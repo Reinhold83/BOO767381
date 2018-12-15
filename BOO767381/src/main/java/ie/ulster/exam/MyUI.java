@@ -48,7 +48,7 @@ public class MyUI extends UI {
         Label status = new Label("You have not booked a seat yet");
         status.setContentMode(ContentMode.HTML);
         Button book = new Button("Book");
-        Label headline = new Label("<H1>Fun Bus Bookings</H1> <p/> <h3>Please enter the details below and click Book</h3>");
+        Label headline = new Label("<H1>Fun Bus Bookings</H1> <p/> <h3>Please enter the details below and click book</h3>");
         headline.setContentMode(ContentMode.HTML);
         Label sdutentID = new Label("BOO767381");
          // Add my component, grid is templated with Bookings1
@@ -123,6 +123,7 @@ public class MyUI extends UI {
     vLayout.addComponent(headline);
     hLayout.addComponents(name, ammountSlider, cbAcess);
     vLayout.addComponent(hLayout);
+    vLayout.addComponent(book);
     vLayout.addComponents(status, myGrid, sdutentID);
     
         
