@@ -1,3 +1,7 @@
+
+package ie.ulster.exam;
+
+
 public class Bookings1 {
     private String destination;
     private int capacity;
