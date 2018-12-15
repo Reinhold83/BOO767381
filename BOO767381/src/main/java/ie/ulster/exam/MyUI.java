@@ -56,14 +56,14 @@ public class MyUI extends UI {
 
 
         try  {
-  // Connect with JDBC driver to a database
-  connection = DriverManager.getConnection(connectionString);
-    ResultSet rs = connection.createStatement().executeQuery("SELECT * FROM Bookings1;");
-    // Convert the resultset that comes back into a List
-    List<Bookings1> lBookings = new ArrayList<Bookings1>();
-    // While there are more records in the resultset
-    while(rs.next())
-    {   
+        // Connect with JDBC driver to a database
+        connection = DriverManager.getConnection(connectionString);
+        ResultSet rs = connection.createStatement().executeQuery("SELECT * FROM Bookings1;");
+        // Convert the resultset that comes back into a List
+        List<Bookings1> lBookings = new ArrayList<Bookings1>();
+        // While there are more records in the resultset
+        while(rs.next())
+        {   
          // Add a new Bookings1 instantiated with the fields
          lBookings.add(new Bookings1(rs.getString("destination"), 
          rs.getInt("capacity"), 
@@ -113,6 +113,8 @@ public class MyUI extends UI {
                 " which is not enough to hold " + totalCap + ".");
 
             }
+
+            status.setValue("Your seat is booked successfully");
         }
      });
     } catch (Exception e) {
