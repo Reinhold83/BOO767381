@@ -6,13 +6,13 @@ public class Bookings1 {
     private String destination;
     private int capacity;
     private String feature;
-    private boolean accesibility;
+    private boolean access;
   
     Bookings1(String d, int c, String f, boolean a) {
         this.destination = d;
         this.capacity = c;
         this.feature = f;
-        this.accesibility = a;
+        this.access = a;
     }
     public String getDestination() {
         return destination;
@@ -24,7 +24,7 @@ public class Bookings1 {
         return feature;
     }
     public boolean getAccesibility() {
-        return accesibility;
+        return access;
     }
     
 }

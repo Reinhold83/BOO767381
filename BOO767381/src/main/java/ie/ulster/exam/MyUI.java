@@ -4,7 +4,7 @@ import javax.servlet.annotation.WebServlet;
 import java.util.*;
 import java.sql.*;
 import com.vaadin.ui.*;
-import com.vaadin.*;
+
 
 
 import com.vaadin.annotations.Theme;
@@ -48,8 +48,11 @@ public class MyUI extends UI {
         Label status = new Label("You have not booked a seat yet");
         status.setContentMode(ContentMode.HTML);
         Button book = new Button("Book");
-    
-
+        Label headline = new Label("<H1>Fun Bus Bookings</H1> <p/> <h3>Please enter the details below and click Book</h3>");
+        headline.setContentMode(ContentMode.HTML);
+        Label sdutentID = new Label("BOO767381");
+         // Add my component, grid is templated with Bookings1
+        Grid<Bookings1> myGrid = new Grid<>();
 
 
         try  {
@@ -67,13 +70,12 @@ public class MyUI extends UI {
          rs.getString("feature"), 
          rs.getBoolean("accesibility")));
     }
-    // Add my component, grid is templated with Bookings1
-    Grid<Bookings1> myGrid = new Grid<>();
+   
     // Set the items (List)
      myGrid.setItems(lBookings);
     // Configure the order and the caption of the grid
      myGrid.addColumn(Bookings1::getDestination).setCaption("Destination");
-     myGrid.addColumn(Bookings1::getAccesibility).setCaption("Capacity");
+     myGrid.addColumn(Bookings1::getCapacity).setCaption("Capacity");
      myGrid.addColumn(Bookings1::getFeature).setCaption("Feature");
      myGrid.addColumn(Bookings1::getAccesibility).setCaption("Accesibility");
      myGrid.setSelectionMode(SelectionMode.MULTI);
@@ -82,29 +84,47 @@ public class MyUI extends UI {
 
      book.addClickListener(e ->{
         if(name.getValue().isEmpty()){
-            status.setValue("");
+            status.setValue("<strong>Please enter your name</strong>");
+            return;
         }
 
+        if(cbAcess.getValue()=="No"){
+            status.setValue("<strong>Please select accessibility</strong>");
+            return;
+        }
 
+        Set<Bookings1> selected = myGrid.getSelectedItems();
+        if(selected.size()==0) {
+            status.setValue("<strong>Please select at least one seat</strong>");
+            return;
+        }
 
+        for(Bookings1 a : selected) {
+            if((a.getAccesibility()==true) && (a.getDestination().equals("Navan")&&(a.getDestination().equals("Cahirsiveen"))) );
+            status.setValue("<strong>The seats selected are not accesibles</strong>");
+            return;
+        }
+
+        int totalCap = 0;
+        for(Bookings1 c : selected) {
+            totalCap = totalCap + c.getCapacity();
+            if(ammountSlider.getValue().intValue()>totalCap) {
+                status.setValue("<strong>You have select a bus with max capacity of " + ammountSlider +
+                " which is not enough to hold " + totalCap + ".");
+
+            }
+        }
      });
-
-
     } catch (Exception e) {
         // This will show an error message if something went wrong
         vLayout.addComponent(new Label(e.getMessage())); 
     }
 
-       /* final TextField name = new TextField();
-        name.setCaption("Type your name here:");
-
-        Button button = new Button("Click Me");
-        button.addClickListener(e -> {
-            layout.addComponent(new Label("Thanks " + name.getValue() 
-                    + ", it works!"));
-        });
-        
-        layout.addComponents(name, button);*/
+    vLayout.addComponent(headline);
+    hLayout.addComponents(name, ammountSlider, cbAcess);
+    vLayout.addComponent(hLayout);
+    vLayout.addComponents(status, myGrid, sdutentID);
+    
         
         setContent(vLayout);
     }
